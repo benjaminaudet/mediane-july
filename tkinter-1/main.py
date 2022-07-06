@@ -60,7 +60,6 @@ class Snake():
             self.x -= 1
         self.prev_rect = self.app.canvas.create_rectangle(
             self.x, self.y, self.x + 20, self.y + 20, fill="red", outline="", tags="snake-" + str(id))
-        self.app.canvas.delete("this")
         self.app.canvas.after(10, self.tick)
         self.moved = True
 
@@ -90,8 +89,6 @@ if __name__ == "__main__":
     app = ExampleApp(root)
     snake1 = Snake(root, 0, 0, 1)
     snake2 = Snake(root, 50, 50, 2)
-    snake1.tick()
-    snake2.tick()
-    # _thread.start_new_thread(snake1.tick)
-    # _thread.start_new_thread(snake2.tick)
+    _thread.start_new_thread(snake1.tick)
+    _thread.start_new_thread(snake2.tick)
     root.mainloop()
