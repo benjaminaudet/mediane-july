@@ -1,3 +1,4 @@
+from pyclbr import Class
 import PIL.Image
 from PIL import ImageTk
 from tkinter import *
@@ -64,13 +65,13 @@ class Snake():
         self.moved = True
         self.prev_rect = []
 
-    def is_touching_food(self):
+    def is_touching_food(self) -> bool:
         global SIZE
         if self.x == self.app.food[0] and self.y == self.app.food[1]:
             return True
         return False
 
-    def increment(self, coords, dir):
+    def increment(self, coords, dir) -> tuple:
         global SIZE
         x = coords[0]
         y = coords[1]
@@ -135,7 +136,5 @@ if __name__ == "__main__":
     root = Tk()
     app = ExampleApp(root)
     snake1 = Snake(root, 0, 0, 1)
-    snake2 = Snake(root, 0, 0, 2)
     snake1.tick()
-    snake2.tick()
     root.mainloop()
