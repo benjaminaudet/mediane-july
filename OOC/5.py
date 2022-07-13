@@ -6,7 +6,7 @@ class Shape():
 
 class Rectangle(Shape):
     def __init__(self, height, width):
-        super().__init__(height, width)
+        super().__init__()
 
     def get_perimeter(self):
         return (self.height + self.width) * 2

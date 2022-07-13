@@ -1,0 +1,74 @@
+<html data-theme="dark">
+
+<head>
+  <link rel="stylesheet" href="./static/pico.min.css">
+  <script type="text/javascript" src="https://brython.info/src/brython.js"></script>
+  <script type="text/javascript" src="https://brython.info/src/brython_stdlib.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
+    integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"
+    integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body onload="brython()">
+  <header class="container"><img src="./static/mediane.png" alt="Logo Médiane"></header>
+  <main id="messages-container" class="container">
+  </main>
+  <footer class="container">
+    <form onsubmit="return false">
+      <div class="grid">
+        <label for="message">
+          Message
+          <input type="text" id="message" name="message" placeholder="Message" required>
+        </label>
+      </div>
+      <button onclick="sendMessage()">Envoyer un message</button>
+    </form>
+  </footer>
+  <script id="entry-template" type="text/x-handlebars-template">
+    {{#each messages}}
+      <article class="entry">
+        <h5>{{this.author}}</h5>
+        <div class="body">
+          {{this.message}}
+        </div>
+      </article>
+    {{/each}}
+  </script>
+  <script type="text/javascript" src="./static/socketio.brython.js"></script>
+  <script></script>
+  <script>
+
+    const socket = io("http://192.168.2.32:3002", { transports: ['websocket', 'polling', 'flashsocket'] });
+    socket.on("connect", () => {
+      socket.emit("get_messages_request", (res) => {
+        renderMessage(res)
+
+      })
+      socket.on("get_messages_response", (res) => {
+        renderMessage(res)
+      })
+    })
+
+    const renderMessage = (res) => {
+      var source = document.getElementById("entry-template").innerHTML;
+      var render = Handlebars.compile(source);
+      var context = res;
+      var data = { messages: context };
+      var html = render(data)
+      document.getElementById("messages-container").innerHTML = html
+    }
+
+    function sendMessage() {
+      message = document.getElementById('message').value
+      const params = new URLSearchParams(window.location.search)
+      author = `${params.get('firstname')} ${params.get('lastname')}`
+      socket.emit("send_message_request", { message, author: author })
+    }
+
+  </script>
+</body>
+
+</html>

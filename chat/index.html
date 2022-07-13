@@ -1,0 +1,40 @@
+<html data-theme="dark">
+
+<head>
+  <link rel="stylesheet" href="./static/pico.min.css">
+  <script type="text/javascript" src="https://brython.info/src/brython.js"></script>
+</head>
+
+<body onload="brython()">
+  <header class="container"""><img src="./static/mediane.png" alt="Logo Médiane"></header>
+  <div class="container">
+    <h5>
+      Bienvenue sur le prototype d'un chat interne dédié à l'agence Médiane Grenoble. Réalisé dans le cadre d'une
+      période inter-contrat afin de tester et de s'autoformer à trois technologies : pico.css, brython et socketio.<br>
+      Respectivement, la première est une bibliothèque CSS très légère permettant de rapidement faire de l'interface
+      utilisateur. La seconde quant à elle, est une librairie Python-Javascript qui permet de faire du Python
+      directement
+      dans le navigateur client-side.<br>
+      La dernière, permet d'utiliser les sockets de manière "haut-niveau" avec un fonctionnement event-based.<br>
+      Brython transpile le Python en Javascript.
+    </h5>
+  </div>
+  <main class="container">
+    <form onsubmit="return false">
+      <div class="grid">
+        <label for="firstname">
+          Prénom
+          <input type="text" id="firstname" name="firstname" placeholder="Prénom" required>
+        </label>
+        <label for="lastname">
+          Nom
+          <input type="text" id="lastname" name="lastname" placeholder="Nom" required>
+        </label>
+      </div>
+      <button id="login">Se connecter au chat</button>
+    </form>
+  </main>
+  <script type="text/python" src="./static/login.py"></script>
+</body>
+
+</html>
